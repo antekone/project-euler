@@ -31,7 +31,10 @@ isqrtc x = ceiling $ sqrt $ fromIntegral x
 
 fermat :: Int -> [Int]
 fermat 0 = []
-fermat modulus = fermatGen modulus $ isqrtc modulus
+fermat modulus
+    -- Skip even moduli.
+    | modulus `mod` 2 == 0 = [modulus `div` 2]
+    | otherwise            = fermatGen modulus $ isqrtc modulus
 
 --
 -- Fermat factorization:
@@ -44,8 +47,6 @@ fermat modulus = fermatGen modulus $ isqrtc modulus
 
 fermatGen :: Int -> Int -> [Int]
 fermatGen modulus a
-    -- Skip even moduli.
-    | modulus `mod` 2 == 0                = [modulus `div` 2]
     -- End conditional.
     | b * b == a * a - modulus            = [a - b, a + b]
     -- Loop.
