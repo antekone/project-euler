@@ -39,13 +39,17 @@ fermat modulus = fermatGen modulus $ isqrtc modulus
 -- Start with `a=ceil(sqrt(modulus))`.
 --
 -- When `until` is reached, factors are: [a-b, a+b].
+--
 
 fermatGen :: Int -> Int -> [Int]
 fermatGen modulus a
+    -- Special cases.
     | a == 0                              = []
     | modulus == 0                        = []
     | modulus `mod` 2 == 0                = [modulus `div` 2]
+    -- End conditional.
     | b * b == a * a - modulus            = [a - b, a + b]
+    -- Loop.
     | otherwise                           = fermatGen modulus $ a + 1
     where
         b = isqrtc(a * a - modulus);
