@@ -6,11 +6,10 @@
 --
 -- $ ghci
 -- Prelude> :l 1
--- *Main> sumList $ generateList $ take 1000 allNumbers
+-- *Main> sumList $ generateList $ take 1000 [0..]
 --
 
-allNumbers :: [Int]
-allNumbers = 0 : [ x + 1 | x <- allNumbers ]
+numbers = take 1000 [0..]
 
 sumList :: [Int] -> Int
 sumList (x:xs) = x + sumList xs
@@ -26,3 +25,5 @@ div35 x
 generateList :: [Int] -> [Int]
 generateList (x:xs) = div35 x ++ generateList xs
 generateList [] = []
+
+result = sumList $ generateList numbers
