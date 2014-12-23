@@ -14,19 +14,36 @@ testn = 13195
 prodn :: Int
 prodn = 600851475143
 
+-- Integer square root, ceiling the partial result.
 isqrtc :: Int -> Int
 isqrtc x = ceiling $ sqrt $ fromIntegral x
 
-isprime :: Int -> Bool
-isprime x = length factors == 2 && minimum factors == 1 && maximum factors == x
-	where factors = fermat x
-
+-- Search for biggest prime factor for numbers specified in the argument. For
+-- example:
+--
+-- *Main> searchm [testn] 0
+-- 29
+-- *Main> searchm [testn,prodn] 0
+-- 6857
 searchm :: [Int] -> Int -> Int
 searchm [] m = m
-searchm (x:xs) m
-	| isprime x = maximum [x, m, searchm xs m]
-	| otherwise = maximum [searchm (fermat x) m, searchm xs m]
+searchm (x:xs) m =
+    maximum $ if isprime then [x, m, rec] else [searchm q m, rec]
+    where
+        -- Let `q` be a list of factors for `x`.
+        q = fermat x;
 
+        -- If `q` is in the form of [a,b], where either `a` or `b` is `1` or
+        -- `x`, then I consider this `q` as a pair of factors for a prime
+        -- number. In this case `isprime` will be True. Otherwise, it will be
+        -- False.
+        isprime = length q == 2 && minimum q == 1 && maximum q == x;
+
+        -- Continue recursively to the rest of the input list.
+        rec = searchm xs m;
+
+-- Fermat factorization gateway function. Real Fermat algorithm is in
+-- `fermatGen`.
 fermat :: Int -> [Int]
 fermat 0 = []
 fermat modulus
@@ -34,7 +51,6 @@ fermat modulus
     | modulus `mod` 2 == 0 = [modulus `div` 2, 2]
     | otherwise            = fermatGen modulus $ isqrtc modulus
 
---
 -- Fermat factorization:
 --
 -- You increase `a` by 1 until `a*a-N` = `b*b`.
@@ -42,7 +58,6 @@ fermat modulus
 --
 -- When `until` is reached, factors are: [a-b, a+b].
 --
-
 fermatGen :: Int -> Int -> [Int]
 fermatGen modulus a
     -- End conditional.
@@ -52,4 +67,5 @@ fermatGen modulus a
     where
         b = isqrtc(a * a - modulus);
 
+-- Entry point.
 main = putStrLn(show $ searchm [prodn] 0)
