@@ -4,20 +4,8 @@
 --
 -- Usage:
 --
--- $ ghci
--- Prelude> :l 3
--- [1 of 1] Compiling Main             ( 3.hs, interpreted )
--- Ok, modules loaded: Main.
--- *Main> fermat prodn
--- [486847,1234169]
--- *Main> fermat 486847
--- [71,6857]   <- second one of these factors is the answer
--- *Main> fermat 71
--- [1,71]
--- *Main> fermat 6857
--- [1,6857]
--- *Main> fermat 1234169
--- [839,1471]
+-- $ ghc 3
+-- $ ./3
 --
 
 testn :: Int
@@ -29,11 +17,21 @@ prodn = 600851475143
 isqrtc :: Int -> Int
 isqrtc x = ceiling $ sqrt $ fromIntegral x
 
+isprime :: Int -> Bool
+isprime x = length factors == 2 && minimum factors == 1 && maximum factors == x
+	where factors = fermat x
+
+searchm :: [Int] -> Int -> Int
+searchm [] m = m
+searchm (x:xs) m
+	| isprime x = maximum [x, m, searchm xs m]
+	| otherwise = maximum [searchm (fermat x) m, searchm xs m]
+
 fermat :: Int -> [Int]
 fermat 0 = []
 fermat modulus
     -- Skip even moduli.
-    | modulus `mod` 2 == 0 = [modulus `div` 2]
+    | modulus `mod` 2 == 0 = [modulus `div` 2, 2]
     | otherwise            = fermatGen modulus $ isqrtc modulus
 
 --
@@ -53,3 +51,5 @@ fermatGen modulus a
     | otherwise                           = fermatGen modulus $ a + 1
     where
         b = isqrtc(a * a - modulus);
+
+main = putStrLn(show $ searchm [prodn] 0)
