@@ -1,5 +1,5 @@
 --
--- Project Euler problem #3 by antekone
+-- Project Euler problem #4 by antekone
 -- http://anadoxin.org/blog
 --
 -- Usage:
