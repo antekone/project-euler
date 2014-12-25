@@ -8,6 +8,8 @@
 -- $ ./4
 --
 
+-- Warning: very bad code, beware of dragons!
+
 decomp :: Int -> [Int]
 decomp x = reverse $ decompInner [] x
 
