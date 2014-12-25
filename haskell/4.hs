@@ -1,3 +1,13 @@
+--
+-- Project Euler problem #3 by antekone
+-- http://anadoxin.org/blog
+--
+-- Usage:
+--
+-- $ ghc 4
+-- $ ./4
+--
+
 decomp :: Int -> [Int]
 decomp x = reverse $ decompInner [] x
 
@@ -58,4 +68,12 @@ fermatGen modulus a
     where
         b = isqrtc(a * a - modulus);
 
-main = putStrLn(show $ (show (searchm !! 0 !! 0)) ++ " x " ++ (show (searchm !! 0 !! 1)))
+{-
+main = putStrLn $ show $ (show (m !! 0 !! 0)) ++ " x " ++ (show (m !! 0 !! 1))
+	where
+		m = searchm;
+--}
+
+main = putStrLn $ show $ (show (m !! 0 !! 0)) ++ " x "
+	where
+		m = searchm;
