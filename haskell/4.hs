@@ -29,14 +29,8 @@ encompInner :: [Int] -> Int -> Int
 encompInner (x:xs) d = x * d + encompInner xs (d * 10)
 encompInner [] _ = 0
 
-buildpnum :: Int -> Int
-buildpnum x = encomp $ buildp x
-
-buildplist :: [Int] -> [Int]
-buildplist a = map buildpnum a
-
 searchp :: [Int] -> [[Int]]
-searchp a = map fermat (reverse (buildplist a))
+searchp a = map fermat (reverse (map (\ x -> encomp (buildp x)) a))
 
 searchm :: [[Int]]
 searchm = filter (\ factors -> length (decomp (factors !! 0)) == 3 && length (decomp (factors !! 1)) == 3) $ searchp [100..999]
@@ -70,12 +64,6 @@ fermatGen modulus a
     where
         b = isqrtc(a * a - modulus);
 
-{-
 main = putStrLn $ show $ (show (m !! 0 !! 0)) ++ " x " ++ (show (m !! 0 !! 1))
-	where
-		m = searchm;
---}
-
-main = putStrLn $ show $ (show (m !! 0 !! 0)) ++ " x "
 	where
 		m = searchm;
