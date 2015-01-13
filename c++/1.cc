@@ -1,3 +1,10 @@
+// project euler #1 in Enterprise C++ by antekone
+// http://anadoxin.org/blog
+//
+// usage:
+//
+// $ g++ 1.cc -o 1 && ./1
+
 #include <iostream>
 
 template <typename T, T ParametrizedValue>
