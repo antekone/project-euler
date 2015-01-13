@@ -7,9 +7,9 @@
 // $ scala P1
 
 object P1 extends App {
-	def nums(upTo: Int): List[Int] =
-		for(i <- List.range(0, upTo) if i % 3 == 0 || i % 5 == 0)
-			yield i
+    def nums(upTo: Int): List[Int] =
+        for(i <- List.range(0, upTo) if i % 3 == 0 || i % 5 == 0)
+            yield i
 
-	println(nums(1000).foldLeft(0)(_ + _));
+    println(nums(1000).foldLeft(0)(_ + _));
 }
