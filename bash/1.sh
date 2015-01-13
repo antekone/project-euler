@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# project euler #1 in bash by antekone
+# http://anadoxin.org/blog
+#
+# usage:
+#
+# $ bash 1.sh
 
 sum=0
 
