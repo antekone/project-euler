@@ -6,17 +6,8 @@
 --
 -- $ ghci
 -- Prelude> :l 2
--- *Main> sumEven fibUnder4Million
---
+-- *Main> result
 
-sumEven :: [Int] -> Int
-sumEven (x:xs)
-    | x `mod` 2 == 0    = x + sumEven xs
-    | otherwise         = sumEven xs
-sumEven [] = 0
-
-fib :: [Int]
 fib = 0 : 1 : [ a + b | (a, b) <- zip fib (tail fib) ]
 
-fibUnder4Million :: [Int]
-fibUnder4Million = takeWhile(< 4000000) $ tail fib
+result = foldl1 (+) $ map (\ x -> if x `mod` 2 == 0 then x else 0) $ takeWhile (< 4000000) (tail fib)
