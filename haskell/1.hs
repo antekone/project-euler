@@ -29,3 +29,5 @@ generateList [] = []
 result = sumList $ generateList numbers
 
 result2 = sumList $ filter (\ x -> x `mod` 3 == 0 || x `mod` 5 == 0) [0..999]
+
+result3 = foldl1 (+) $ filter (\ x -> x `mod` 3 == 0 || x `mod` 5 == 0) [0..999]
