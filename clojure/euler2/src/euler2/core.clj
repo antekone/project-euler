@@ -17,14 +17,14 @@
   "Generator for fib"
   (if (= i n)
     (+ p1 p2)
-    (fib-gen p1 r (+ p1 r) (+ 1 i) n)))
+    (recur p1 r (+ p1 r) (+ 1 i) n)))
 
 ; Interface to the generator.
 (defn fib [n]
   "Returns the n-th Fibonacci number using a tail-recursive generator."
   (if (< n 2)
-    1
-    (fib-gen 1 1 1 1 n)))
+    1N
+    (fib-gen 1N 1N 1N 1N n)))
 
 ; Returns the sequence of Fibonacci numbers lesser than 4 million.
 (defn get-sequence []
