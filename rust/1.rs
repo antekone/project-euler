@@ -5,9 +5,9 @@
 // $ ./1
 
 fn main() {
-    let mut sum = 0i;
+    let mut sum = 0is;
 
-    for i in range(0, 1000) {
+    for i in 1is..1000 {
         if i % 3 == 0 || i % 5 == 0 {
             sum += i;
         }
