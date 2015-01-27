@@ -5,13 +5,7 @@
 // $ ./1
 
 fn main() {
-    let mut sum = 0is;
-
-    for i in 1is..1000 {
-        if i % 3 == 0 || i % 5 == 0 {
-            sum += i;
-        }
-    }
-
-    println!("{}", sum);
+    println!("{}", (1is..1000).
+             filter(|&x| x % 3 == 0 || x % 5 == 0).
+             fold(0, |x, y| x + y));
 }
