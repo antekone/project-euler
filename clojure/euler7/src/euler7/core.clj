@@ -6,26 +6,24 @@
 ; $ lein run
 
 (ns euler7.core (:gen-class)
-  (:require [clojure.math.numeric-tower :as math])
-  (:require [clojure.core.match :refer [match]]))
+  (:require [clojure.math.numeric-tower :as math]))
 
 ; Tail-recursive Sieve of Erastothenes implementation.
 ; (not really optimized)
 
 ; Main sieve logic.
 ;
-; It expects 4 arguments:
+; It expects 3 arguments:
 ;
 ; i - sieve step,
 ; j - current sieve index,
-; n - top sieve bound (taked from 'e-sieve')
 ; A - sieve state vector.
 ;
 ; Each call to this function can change the sieve vector A. Return value is a
 ; new vector A, which can be changed, or not.
-(defn e-sieve-A [i j n A]
+(defn e-sieve-A [i j A]
   ; Check if we're in the allowed bounds.
-  (if (> j n)
+  (if (> j (count A))
     ; We're out of bounds: this means sieving is done. Return the state vector A
     ; unchanged.
     A
@@ -38,19 +36,18 @@
     (let [nj (+ j i)
           nA (assoc A j false)]
       ; Recursively continue to next iteration.
-      (recur i nj n nA))))
+      (recur i nj nA))))
 
 ; Generator for 'e-sieve'.
 ;
-; It expects 4 argument:
+; It expects 3 argument:
 ;
 ; i     - current iteration counter,
 ; sqrtn - iteration finish counter,
-; n     - maximum n from 'e-sieve',
 ; A     - a sieve state. Initial vector can be full of 'true' items.
 ;
 ; This generator will sieve all non-primes from the range of (i,sqrtn).
-(defn e-sieve-gen [i sqrtn n A]
+(defn e-sieve-gen [i sqrtn A]
   ; Tail-recursion loop end conditional.
   (if (>= i sqrtn)
     ; If the loop is over, convert the result vector to a better format and return it.
@@ -64,7 +61,7 @@
     (if (false? (nth A i))
       ; Value was already sieved, skip it by recursively continuing to the next
       ; iteration, using unchanged sieve state A.
-      (recur (+ 1 i) sqrtn n A)
+      (recur (+ 1 i) sqrtn A)
 
       ; If the value was not sieved yet, sieve it.
       ;
@@ -73,7 +70,7 @@
       (let [j (* i i)]
         ; Recursively continue with another iteration with altered sieve state
         ; A. Altering the sieve state is done by 'e-sieve-A' function.
-        (recur (+ 1 i) sqrtn n (e-sieve-A i j n A))))))
+        (recur (+ 1 i) sqrtn (e-sieve-A i j A))))))
 
 (defn e-sieve [n]
   ; Define a vector A of size n, then set all of its elements to 'true'.
@@ -82,7 +79,7 @@
         sqrtn (math/sqrt n)]
 
     ; Define 'primes' that will hold the result of 'e-sieve-gen' function.
-    (let [primes (e-sieve-gen 2 sqrtn n A)]
+    (let [primes (e-sieve-gen 2 sqrtn A)]
       ; 'e-sieve-gen' will return a vector in the form of:
       ;
       ; [0 1 2 3 0 5 0 7 0 0 0 11 ...]
