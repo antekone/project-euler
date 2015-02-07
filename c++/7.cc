@@ -10,7 +10,7 @@
 #include <iostream>
 #include <math.h>
 
-// Sieve of Erastothenes.
+// Sieve of Eratosthenes.
 
 void e_sieve(size_t n) {
 	std::vector<bool> A;
