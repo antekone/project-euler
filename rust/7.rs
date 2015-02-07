@@ -10,7 +10,7 @@
 
 use std::num::Float;
 
-// Sieve of Erastothenes.
+// Sieve of Eratosthenes.
 
 fn e_sieve(n: usize) {
     let mut A: Vec<bool> = Vec::new();
