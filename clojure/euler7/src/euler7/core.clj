@@ -8,7 +8,7 @@
 (ns euler7.core (:gen-class)
   (:require [clojure.math.numeric-tower :as math]))
 
-; Tail-recursive Sieve of Erastothenes implementation.
+; Tail-recursive Sieve of Eratosthenes implementation.
 ; (not really optimized)
 
 ; Main sieve logic.
@@ -87,6 +87,22 @@
       ; Filter out all zeroes from this vector, so we can have a result in
       ; the form of a simple vector with only prime numbers inside.
       (filter (fn [x] (not= x 0)) primes))))
+
+
+; ----- take #2, minimalized version ------
+
+(defn min-e-sieve-A [i j A]
+  (if (> j (count A)) A (recur i (+ j i) (assoc A j false))))
+
+(defn min-e-sieve-gen [i sqrtn A]
+  (if (>= i sqrtn)
+    (map-indexed (fn [i b] (if (true? b) i 0)) A)
+    (recur (+ 1 i) sqrtn (if (false? (nth A i)) A (min-e-sieve-A i (* i i) A)))))
+
+(defn min-e-sieve [n]
+    (filter (fn [x] (not= x 0)) (min-e-sieve-gen 2 (Math/sqrt n) (vec (take n (repeat true))))))
+
+; -----------------------------------------
 
 ; Entry-point.
 
