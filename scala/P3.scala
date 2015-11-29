@@ -4,7 +4,6 @@
 // http://anadoxin.org/blog
 
 import scala.annotation.tailrec
-import scala.collection.mutable.Queue
 
 object P3 {
   // oneliners
