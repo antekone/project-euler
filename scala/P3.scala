@@ -7,8 +7,8 @@ import scala.annotation.tailrec
 
 object P3 {
   // oneliners
-  def max(t: (Long,Long)): Long =    if(t._1 > t._2) t._1 else t._2
-  def min(t: (Long,Long)): Long =    if(t._1 > t._2) t._2 else t._1
+  def max(t: (Long,Long)): Long = t match { case (f1, f2) => if(f1 > f2) f1 else f2 }
+  def min(t: (Long,Long)): Long = t match { case (f1, f2) => if(f1 > f2) f2 else f1 }
   def fermat(n: Long): (Long,Long) = if(n % 2 == 0) (2, n / 2) else fermatGen(n, math.sqrt(n).toLong)
   def biggestFactor(n: Long): Long = explodeFactorsGen(Seq(n), Seq())._2.max
 
@@ -25,19 +25,22 @@ object P3 {
   }
 
   @tailrec
-  def explodeFactorsGen(arg: (Seq[Long], Seq[Long])): (Seq[Long], Seq[Long]) = {
-    if(arg._1.isEmpty)
-      return arg
-
-    val result = arg._2
-    val f = fermat(arg._1.head)
-
-    if(min(f) == 1)
-      // head is prime
-      explodeFactorsGen((arg._1.tail, result :+ max(f)))
-    else
-      // head is not prime
-      explodeFactorsGen((arg._1.tail :+ f._1 :+ f._2, result))
+  def explodeFactorsGen(arg: (Seq[Long], Seq[Long])): (Seq[Long], Seq[Long]) = arg match {
+    case (in, result) =>
+      in match {
+        case Nil => arg
+        case x :: xs => {
+          val f = fermat(x)
+          if(min(f) == 1)
+            // head is prime
+            explodeFactorsGen((xs, result :+ max(f)))
+          else
+            // head is not prime
+            f match {
+              case (f1, f2) => explodeFactorsGen((xs :+ f1 :+ f2, result))
+            }
+        }
+    }
   }
 
   // normal functions
