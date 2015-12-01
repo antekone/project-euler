@@ -11,13 +11,6 @@ object P14 {
     coll
   }
 
-  def printCollatzSequence(seq: Stream[Long]) = {
-    var x: Long = 0
-    for(x <- seq.takeWhile(_ != 1)) {
-      println(x)
-    }
-  }
-
   def main(args: Array[String]) = {
     Range(1, 999999).par.map(idx => (countCollatzSequenceSize(getCollatzSequence(idx)), idx)).max match {
       case (idx,value) => println("Solution to #14 is: %d".format(value))
