@@ -13,15 +13,17 @@ int d(n) => divisors(n).fold(0, (a, b) => a + b);
 bool abundant(n) => d(n) > n;
 
 bool yes(i, arr) {
-  for(var x = 0; x < arr.length; x++) {
-    for(var y = 0; y < arr.length; y++) {
+  if(i <= arr[0] * 2) return false;
+
+  for(var x = 0, lenx = arr.length; x < lenx; x++) {
+    for(var y = 0, leny = arr.length - x; y < leny; y++) {
       if(arr[x] + arr[y] == i)
         return true;
 
-      if(arr[y] - arr[x] >= i) break;
+      if(arr[x] + arr[y] > i) break;
     }
 
-    if(arr[x] >= i) break;
+    if(arr[x] + arr[0] >= i) break;
   }
 
   return false;
@@ -31,12 +33,13 @@ void main() {
   var sum = 0;
 
   var abundants = [];
+
   for(var i = 1; i <= 28123; i++) {
     if(abundant(i))
       abundants.add(i);
   }
 
-  for(var i = 1; i < 28123; i++) {
+  for(var i = 1; i < 28130; i++) {
     if(!yes(i, abundants))
       sum += i;
   }
