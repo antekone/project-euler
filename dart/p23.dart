@@ -33,14 +33,21 @@ void main() {
   var sum = 0;
 
   var abundants = [];
-
   for(var i = 1; i <= 28123; i++) {
     if(abundant(i))
       abundants.add(i);
   }
 
-  for(var i = 1; i < 28130; i++) {
-    if(!yes(i, abundants))
+  Map<int, int> s = {};
+  for(int x = 0; x < abundants.length; x++) {
+    for(int y = 0; y < abundants.length / 2; y++) {
+      var n = abundants[x] + abundants[y];
+      s[n] = 1;
+    }
+  }
+
+  for(int i = 0; i < 28123; i++) {
+    if(!s.containsKey(i))
       sum += i;
   }
 
